@@ -1,0 +1,49 @@
+code for login banner
+
+
+
+
+
+path('loginbanner/',views.loginBannerApiView.as_view(),name='login'),
+
+
+class loginBannerApiView(APIView):
+	def get(self,request):
+		if request.user.is_authenticated:
+			return loginInUserRedirect(request)
+		loginType = request.GET.get('type')
+		loginTypeValid = loginTypeValidView(loginType)
+		if not loginType or not loginTypeValid:
+			messages = {'messages': 'Invalid Login Request. Kindly Select a valid Profile Type to Login.'}
+			return Response(messages, status=status.HTTP_404_NOT_FOUND)
+		else:
+			request.session['loginType'] = loginType
+			try:
+				sideMenuObj = loginBannerObjects.objects.get(relatedTo__name=loginType)
+			except:
+				sideMenuObj = None
+			serializer = loginBannerSerializer(instance=sideMenuObj)
+		countryList = country.objects.all()
+		return Response(serializer.data)
+
+	def post(self,request):
+		loginType = request.POST.get('loginType')
+		loginTypeValid = loginTypeValidView(loginType)
+		if not loginType or not loginTypeValid:
+			messages = {'messages': 'Invalid Login Request. Kindly Select a valid Profile Type to Login.'}
+			return Response(messages, status=status.HTTP_404_NOT_FOUND)
+		else:
+			request.session['loginType'] = loginType
+		
+		emailID = request.POST.get('enteredEmail')
+		return Response()
+		
+		
+from .models import loginBannerObjects
+
+class loginBannerSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = loginBannerObjects
+		exclude = ('author','publish','created', 'updated', 'status', 'bannerImg')
+
+

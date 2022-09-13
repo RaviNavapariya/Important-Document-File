@@ -1,0 +1,28 @@
+----############--------------Getting Tag from Taggit Module---------------------------
+
+
+------------serializer.py----------------
+
+from taggit.models import Tag
+
+class MyTagSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Tag
+        fields = ['name']
+
+------------view.py-----------------------
+
+from taggit.models import Tag
+
+class TagViewSet(APIView):
+	def get(self, request):
+		tags = Tag.objects.all().order_by('name')
+		serializer = MyTagSerializer(tags, many=True)
+		data = {
+			"tags":serializer.data
+		}
+		return Response(data)
+		
+--------------urls.py------------------------
+
+path('tags/',views.TagViewSet.as_view(),name='tags'),

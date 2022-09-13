@@ -1,0 +1,68 @@
+git config --list --show-origin
+
+git config --list
+
+git config --global user.name "RaviNavapariya"
+
+git config --list
+
+git config --global user.email rna.globaliasoft@gmail.com
+
+git config --list
+
+git config user.name
+
+git init
+
+git status
+
+git add .
+
+git status
+
+git commit -m "initial commit"
+
+git remote add origin <REMOTE_URL> (# Sets the new remote)
+
+git remote -v (#Verifies the new remote URL)
+
+git push origin master
+
+
+
+-----------------------------------------------------------------
+
+To see local branch names>>>>>>>>>>>>>>>>>>> git branch
+
+To see all remote branch names>>>>>>>>>>>>>> git branch -r
+
+To see all local and remote branches>>>>>>>> git branch -a
+
+see detailed information such as the local or remote branches in use, commit ids, and commit messages by running>>>>>>>>>>>>>>>>>>>>>>>>> git branch -vv || git branch -vva
+
+------------------------------------------------------------------
+-----------------------------Merge a Branch-----------------------
+
+git status
+
+git checkout master
+
+git merge <my-branch-name>
+
+(Refrench>>>>>>>>>>>>>>>>>>>>>>>>https://www.nobledesktop.com/learn/git/git-branches)
+
+--------------------------------------------------------------------
+----------------------------gitignore pyc file----------------------
+
+Add .pyc to .gitignore file>>>>>>>>>>>>>>>>>>>*.pyc
+
+Remove .pyc file>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>git rm -f
+
+find . -name "*.pyc" -exec git rm -f "{}" \;
+
+find . -name "*.pyc" -exec git rm -f --cached "{}" \;
+
+Commit Changes>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>git commit -am "type commit message here"
+
+(Refrence>>>>>>>>>>>>>>>>(https://fedingo.com/how-to-remove-pyc-file-from-git-repository/)
+

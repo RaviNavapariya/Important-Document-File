@@ -1,0 +1,57 @@
+https://planify-main.s3.amazonaws.com/static/news/icons/planify-newlogo.png
+
+----------------------Set Foreign Key Value---------------------
+
+--------serializer.py
+
+class buyPreIPOStockListGETSerializer(serializers.ModelSerializer):
+	logo = serializers.ImageField(source="stockName.logo", read_only=True,default="null")  ###########---------Here you can paste your Foreignkey value
+	class Meta:
+		model = buyPreIPOStockList
+		fields = "__all__"
+		
+--------view.py
+
+{
+	data = serializer.data
+	if not data['logo']:
+		data['logo'] = "https://planify-main.s3.amazonaws.com/static/news/icons/planify-newlogo.png"
+}
+
+class BuyPreIpoViewAPIView(generics.ListAPIView):
+	def get(self, request, format = None):
+		sortQuery = request.GET.get('sort')
+		category_list = []
+		if sortQuery:
+			category = buyPreIPOStockList.objects.filter(Q(stockName__stockProfileNameSE__category__name__iexact=sortQuery))
+			for cat in category:
+				essentialInst = stockEssentials.objects.get(stockProfileName=cat.stockName)
+				serializer = buyPreIPOStockListGETSerializer(cat)
+				if essentialInst.category.name or essentialInst.subSector.name:
+					data = serializer.data
+					data["category"] = essentialInst.category.name if essentialInst.category else None
+					data["subSector"] = essentialInst.subSector.name if essentialInst.subSector else None
+				category_list.append(data)
+			return Response(category_list)
+		else:
+			category = buyPreIPOStockList.objects.order_by('name')
+			for cat in category:
+				if cat.stockName:
+					essentialInst = stockEssentials.objects.get(stockProfileName=cat.stockName)
+					serializer = buyPreIPOStockListGETSerializer(cat)
+					data = serializer.data
+					if not data['logo']:
+						data['logo'] = "https://planify-main.s3.amazonaws.com/static/news/icons/planify-newlogo.png"
+						
+					if essentialInst.category.name or essentialInst.subSector.name:
+						data["category"] = essentialInst.category.name if essentialInst.category else None
+						data["subSector"] = essentialInst.subSector.name if essentialInst.subSector else None
+					category_list.append(data)
+				else:
+					serializer = buyPreIPOStockListGETSerializer(cat)
+					data = serializer.data
+					if not data['logo']:
+						data['logo'] = "https://planify-main.s3.amazonaws.com/static/news/icons/planify-newlogo.png"
+					category_list.append(data)
+			return Response(category_list)
+

@@ -1,0 +1,32 @@
+--------------Total Branch checking----------
+git status
+
+
+-------------------------Branch List-----------
+git branch --list
+
+
+---------------------------Switch to Branch------
+git checkout PLAN-58
+
+
+--------------------------------Branch Checking-----------
+git branch
+
+
+----------------------------------create a new branch and switched to it-----
+git checkout -b New_branch
+
+
+------------------------------------add all file in git----------------
+git add .
+git status(check for added file)
+
+
+----------------------------------Commit file with message-------------
+git commit -m "Intial file Added-message"
+
+
+----------------------------------push code on our branch----------------
+git push origin New_branch//git push --set-upstream origin New_branch
+

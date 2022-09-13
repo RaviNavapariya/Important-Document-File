@@ -1,0 +1,47 @@
+class crawledNewsViewAPIViews(APIView):
+	paginator = PageNumberPagination()
+
+	def get_paginated_response(self, data):
+		assert self.paginator is not None
+		return self.paginator.get_paginated_response(data)
+
+	def get(self,request,formate=None):
+		# context = paginator.paginate_queryset(queryset, request)
+		# serializer = self.serializer_class(context, many=True)
+		# return paginator.get_paginated_response(serializer.data)
+		searchPage = False
+		searchQuery = request.GET.get('searchq')
+		with connections['cralwer'].cursor() as cursor:
+			status = "'published'"
+			if searchQuery:
+				searchPage = True
+				searchQuery = searchQuery.replace("'", "\\'")
+				queryToSearch = "'%"+searchQuery+"%'"
+				query = 'Select * from "crawlApp_googlenewsstore" \
+				where status='+status+' AND (title ILIKE E'+queryToSearch+' OR "desc" ILIKE E'+queryToSearch+' OR site ILIKE E'+queryToSearch+') ORDER BY date DESC;'
+			else:
+				query = 'select * from "crawlApp_googlenewsstore" where status='+status+' ORDER BY date DESC'
+			cursor.execute(query)
+			newsListRaw = dictfetchall(cursor)
+		flag = 'crawled'
+
+		try:
+			blogNewsListingDMInst = blogWebNewsListingDM.objects.latest('-id')
+		except:
+			blogNewsListingDMInst = None
+
+		try:
+			blogNewsHeadingDMInst = newsHeadingWebDM.objects.latest('-id')
+		except:
+			blogNewsHeadingDMInst = None
+
+		context = {
+			'flag':str(flag),
+			'blogNewsListingDMInst':str(blogNewsListingDMInst),
+			'blogNewsHeadingDMInst':str(blogNewsHeadingDMInst),
+			'searchPage':str(searchPage),
+		}
+		context = self.paginator.paginate_queryset(newsListRaw, request)
+		return self.get_paginated_response(context)
+		
+from rest_framework.pagination import PageNumberPagination

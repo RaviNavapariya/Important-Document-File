@@ -1,0 +1,6 @@
+class blogVideosDetailedSerializer(serializers.ModelSerializer):
+	tags = serializers.SerializerMethodField('get_tags')
+	weburl = serializers.URLField(source='get_absolute_url', read_only=True)
+	class Meta:
+		model = blogVideos
+		fields = ('id','title','slug','blogImage','blogVideo','videoLink','subTitle', 'content','excerptContent','category','tags','weburl')
