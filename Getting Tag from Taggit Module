@@ -1,6 +1,7 @@
-----############--------------Getting Tag from Taggit Module---------------------------
+---------------------------------------------------------------------------------
+-----------------Getting Tag from Taggit Module---------------------------Planify
 
-
+-----------------------------------------
 ------------serializer.py----------------
 
 from taggit.models import Tag
@@ -10,6 +11,7 @@ class MyTagSerializer(serializers.ModelSerializer):
         model = Tag
         fields = ['name']
 
+------------------------------------------
 ------------view.py-----------------------
 
 from taggit.models import Tag
@@ -22,7 +24,8 @@ class TagViewSet(APIView):
 			"tags":serializer.data
 		}
 		return Response(data)
-		
---------------urls.py------------------------
+
+-------------------------------------------	
+--------------urls.py----------------------
 
 path('tags/',views.TagViewSet.as_view(),name='tags'),

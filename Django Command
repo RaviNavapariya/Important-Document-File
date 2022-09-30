@@ -1,0 +1,27 @@
+____________________________Django Command____________________________________
+
+create environment>>>>>>>>>>>>>>>>>>>>>>>>>>python3 -m venv env
+
+active environment>>>>>>>>>>>>>>>>>>>>>>>>>>source env/bin/activate
+
+deactvate environment>>>>>>>>>>>>>>>>>>>>>>>deactivate
+
+create Project>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>django-admin startproject Project_name
+
+go to project directory>>>>>>>>>>>>>>>>>>>>>cd Project_name
+
+create app>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>django-admin startapp Application_name
+
+makemigrations>>>>>>>>>>>>>>>>>>>>>>>>>>>>>python3 manage.py makemigrations
+
+migrate>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>python3 manage.py migrate
+
+No Migrations Apply Error>>>>>>>>>>>>>>>>>>python manage.py makemigrations --empty yourappname || python manage.py migrate yourappname
+
+createsuperuser>>>>>>>>>>>>>>>>>>>>>>>>>>>python3 manage.py createsuperuser
+
+runserver>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>python3 manage.py runserver
+
+kill port>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>sudo kill -9 `sudo lsof -t -i:8000`
+
+making requirements.txt>>>>>>>>>>>>>>>>>>>pip3 freeze > requirements.txt

@@ -1,7 +1,0 @@
--------Kill Port 8000--------------
-
-sudo kill -9 `sudo lsof -t -i:8000`
-
-
-_______________Make Requirement.txt__________________
-pip3 freeze > requirements.txt

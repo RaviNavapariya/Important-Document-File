@@ -1,0 +1,49 @@
+---------------------------------------------------------------------settings.py
+
+DJANGO_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+]
+
+THIRD_PARTY_APPS = [
+    'rest_framework'
+]
+
+LOCAL_APPS = [
+    'ManageBook',
+]
+
+INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
+
+
+import os
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join('media')
+
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join('static')
+
+-------------------------------------------------------------------------urls.py
+
+from django.conf import settings
+from django.conf.urls.static import static
+
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL,
+                          document_root=settings.MEDIA_ROOT)
+                          
+------------------------------------------------------------------------models.py
+
+BOOK_TYPES = Choices(
+        ("book","Book"),
+        ("magazine","Magazine"),
+    )
+
+class Meta:
+        db_table = 'books_tbl'

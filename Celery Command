@@ -1,0 +1,71 @@
+_____________________________Celery Command________________________________________
+
+Install Celery as Your Task Queue>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>python -m pip install celery
+
+python -m celery worker
+
+Install Redis as Your Celery Broker and Database Back End>>>>>>>>>>>>>>>>>>>sudo apt update || sudo apt install redis
+
+redis on shell>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>redis-server || redis-cli || ping>>>>pong
+
+install redis>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>python -m pip install redis
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>python -m celery -A django_celery worker
+
+For celery Worker>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>celery -A Project_Name worker -l info
+
+For celery beat>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>celery -A Project_Name beat -l info
+
+combine>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>celery -A proj worker -l info -B
+
+#############################
+celery.py
+
+import os
+from celery import Celery
+
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "PROJECT_NAME.settings")
+app = Celery("PROJECT_NAME")
+app.config_from_object("django.conf:settings", namespace="CELERY")
+app.autodiscover_tasks()
+
+#############################Celery settings
+CELERY_BROKER_URL = "redis://localhost:6379"
+CELERY_RESULT_BACKEND = "redis://localhost:6379"
+
+#############################
+django_celery/__init__.py
+
+from .celery import app as celery_app
+
+__all__ = ("celery_app",)
+
+############################
+# feedback/tasks.py
+
+from time import sleep
+from django.core.mail import send_mail
+from celery import shared_task
+
+@shared_task()
+def send_feedback_email_task(email_address, message):
+    """Sends an email when the feedback form has been submitted."""
+    sleep(20)  # Simulate expensive operation(s) that freeze Django
+    send_mail(
+        "Your Feedback",
+        f"\t{message}\n\nThank you!",
+        "support@example.com",
+        [email_address],
+        fail_silently=False,
+    )
+
+#############################    
+# feedback/forms.py
+
+from feedback.tasks import send_feedback_email_task
+
+send_feedback_email_task.delay(
+            self.cleaned_data["email"], self.cleaned_data["message"]
+        )
+        
+       

@@ -1,0 +1,17 @@
+_____________________pip package install______________________
+
+Django>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>pip install Django
+
+Rest Framework>>>>>>>>>>>>>>>>>>>>>>>>>>>pip install djangorestframework
+
+simplejwt>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>pip install djangorestframework-simplejwt
+
+Pillow>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>pip install Pillow
+
+psycopg2>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>pip install psycopg2--binary
+
+phone_number>>>>>>>>>>>>>>>>>>>>>>>>>>>>>pip install django-phonenumber-field[phonenumbers] ----- INSTALLED_APPS = ['phonenumber_field',]
+
+phone_number>>>>>>>>>>>>>>>>>>>>>>>>>>>>>pip install django-phonenumber-field[phonenumberslite]
+
+

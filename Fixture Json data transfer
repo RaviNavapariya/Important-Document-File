@@ -1,0 +1,8 @@
+----------------------------------------------------------------------------------------------
+_______________________________Fixture Json data transfer____________________________________
+
+python data dump into json data
+>>>>>>>>>>>>>>python3 manage.py dumpdata Application_name.Model_name --indent 4 > Application_name/Folder_name/dump_file.json(path)
+
+json data load into python data
+>>>>>>>>>>>>>>python3 manage.py loaddata Application_name/Folder_name/json_file.json --app Application_name.Model_name
